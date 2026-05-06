@@ -1,13 +1,10 @@
-Welcome to Lumache's documentation!
-===================================
+Welcome to PricePump's documentation!
+=====================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
-
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+**PricePump** is a comprehensive tool for drivers to calculate journey fuel costs, 
+find nearby petrol stations, and manage vehicle efficiency. 
+It integrates real-time fuel prices, weather conditions, and DVLA vehicle data 
+to provide accurate financial insights for every trip.
 
 .. note::
 
@@ -21,4 +18,4 @@ Contents
    Frontend
    Backend
 
-Lumache hosts its documentation on Read the Docs.
+PricePump hosts its documentation on Read the Docs.
