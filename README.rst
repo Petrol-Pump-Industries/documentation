@@ -14,7 +14,7 @@ Our full technical documentation is split into two primary sections:
 
 Read the full documentation here:
 
-👉 **`https://pricepump.readthedocs.io/ <https://pricepump.readthedocs.io/>`_**
+👉 **https://pricepump.readthedocs.io**
 
 Key Features
 ------------
