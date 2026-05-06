@@ -171,12 +171,24 @@ register_page.dart
 This function handles the user registration process. It validates the form, shows a loading indicator, and attempts to register a new account using the provided email, username, and password. If registration is successful, it displays a success message and navigates back to the login page. If there's an error during registration, it shows an error message in a snackbar.
 
 search_page.dart
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
 .. code-block:: dart
 
+  class SearchPage extends StatefulWidget {
+    // Manages multi-stop journey planning and location search
+  }
 
+The ``SearchPage`` is the most complex UI component in the application, offering several high-level features:
 
+- **Multi-Stop Planning**: Users can add intermediate waypoints between their origin and destination. The UI dynamically manages these stops and updates the route preview accordingly.
+- **HERE SDK Integration**: 
+    - **Suggestions**: Real-time search suggestions as the user types, powered by the HERE Search Engine.
+    - **Geocoding**: Converting addresses to coordinates and vice versa (reverse geocoding) for "Current Location" support.
+    - **Routing Preview**: Calculating distance and base duration using the HERE Routing Engine before a journey starts.
+- **Backend-Driven ETA**: Beyond simple distance, the page calls the PricePump Backend to get a "financial ETA" which considers vehicle mass, weather, and seasonal efficiency.
+- **Location Management**: Users can save frequently used locations as "Favorites" or set a "Home" location for quick one-tap routing.
+- **Nearby Fuel Lookup**: When an active vehicle is selected, users can search for the cheapest/nearest petrol stations specific to their vehicle's fuel type.
 settings_page.dart
 ^^^^^^^^^^^^^^^
 
@@ -762,7 +774,13 @@ add_vehicle_flow.dart
     );
   }
 
-This widget represents the flow for adding a vehicle, allowing users to either look up their vehicle details using the DVLA API or enter them manually. It includes error handling for various scenarios such as not finding the vehicle or hitting rate limits, and ensures that the nickname for the vehicle is unique and valid before saving.
+This widget represents the flow for adding a vehicle, allowing users to either look up their vehicle details using the DVLA API or enter them manually. 
+
+**Workflow:**
+1. **Step 1: Registration**: User enters their VRM. The app attempts an automated lookup via the backend's DVLA integration.
+2. **Step 2: Verification**: If found, details (Make, Model, Fuel Type) are displayed. Users can switch to **Manual Mode** to override or correct these details.
+3. **Step 3: Personalization**: Users provide a unique nickname and an optional MPG value for more accurate cost calculations.
+4. **Validation**: The widget ensures nicknames are unique to the user's profile and handles various API errors (Rate limits, VRM not found, etc.).
 
 map_ui.dart
 ^^^^^^^^^^
@@ -828,7 +846,14 @@ map_ui.dart
     }
   }
 
-This code snippet includes functions for obtaining the user's current location and moving the map camera to that location. It uses the Geolocator package to get the device's position and converts it to HERE SDK's GeoCoordinates. The camera can be set to follow the user's position in either a standard top-down view or a tilted perspective mode for driving.
+This component is the primary interface for map interaction, wrapping the HERE SDK's ``HereMap`` widget.
+
+**Core Capabilities:**
+- **Dynamic Camera**: The camera can follow the user's position in two modes:
+    - **Standard**: A top-down view for general browsing.
+    - **Driving**: A tilted perspective (60-degree tilt) with close-up zoom (level 17) that rotates based on the user's heading.
+- **Location Logic**: Uses the ``Geolocator`` package to fetch GPS coordinates and seamlessly translates them into HERE SDK ``GeoCoordinates``.
+- **Navigation State**: Integrates with the ``NavigationService`` to maintain map markers and route lines across different application tabs.
 
 Navigation_Menu.dart
 ^^^^^^^^^^^^^^^^^^^^^
