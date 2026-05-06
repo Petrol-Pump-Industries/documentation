@@ -8,12 +8,15 @@ In order to keep each and every part of the program be easy to Read.
 
 Fonts
 -----
-
-//temp
+The application utilizes the default **Material 3 Typography** system. It primarily uses the **Roboto** font family (standard for Flutter/Android) to ensure a clean, readable interface that adapts to the system's text scaling settings.
 
 Colours
------
-//temp
+-------
+PricePump follows a **Material 3 Color System** seeded from a primary blue base (``Colors.blue``). This generates a dynamic color scheme that includes:
+
+- **Primary**: Used for key action buttons (e.g., "Add Vehicle").
+- **Secondary/Tertiary**: Used for highlights and less critical UI elements.
+- **Surface/Background**: Neutral tones used for cards and page backgrounds, ensuring high contrast and accessibility.
 
 Main.dart
 ---------
@@ -32,7 +35,12 @@ Main.dart
       if (dart.library.html) 'src/utils/db_init_web.dart';
 
 
-The program starts from this script. It initializes the HERE SDK, checks for an existing user session, and launches the app with the appropriate initial route (either the map page if a session exists or the login page if not).
+The program starts from this script. It performs several critical bootstrap operations:
+
+1. **Initialization**: It sets up the ``WidgetsFlutterBinding`` and prepares the local database for the specific platform (Windows/Linux/Web).
+2. **HERE SDK Setup**: It initializes the HERE SDK with credentials required for map rendering and routing.
+3. **Session Management**: It checks the ``AuthService`` for an existing logged-in user to determine whether to launch into the Map or the Login page.
+4. **App Routing**: It defines the core navigation structure, mapping routes to pages like ``/map``, ``/search``, and ``/vehicles``.
 
 Pages
 ------
@@ -1318,6 +1326,29 @@ navigation_service.dart
   }
 
 The comments explain each line in detail but the overall purpose of this script is to manage active change in your loaction.
+
+auth_service.dart
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: dart
+
+  class AuthService {
+    final dbHelper = DatabaseHelper.instance;
+
+    Future<Account> login(String email, String password) async {
+      // Validates credentials against local SQLite database
+    }
+
+    Future<Account> register(String email, String username, String password) async {
+      // Creates a new persistent account locally
+    }
+
+    Future<Account> createGuestAccount() async {
+      // Allows immediate access without registration
+    }
+  }
+
+The ``AuthService`` is a critical component that bridges the application UI with the local SQLite database. It manages user identities, handles password hashing (MVP level), and persists session states so users remain logged in across app restarts.
 
 Utilites
 --------
